@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System</title>
+    <style src="style.css">
+        body { font-family: Arial, sans-serif; }
+        .container { width: 90%; margin: 20px auto; background: rgba(255, 255, 255, 0.8); padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); border-radius: 19px; position: relative;}
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        table, th, td { border: 2px solid black;border-color: #0056b3; }
+        th, td { padding: 10px; text-align: center; }
+        input, button { margin: 5px; padding: 8px; }
+        body {background: url('logo.webp') no-repeat center center fixed;}
+        th {background: #007bff; color: white;}
+        button { padding: 10px 15px; margin: 5px; border: none; background: #007bff; color: white; cursor: pointer; border-radius: 5px;}
+        button:hover { background: #0056b3; }
+        #main-container { display: none; opacity: 0; transition: opacity 1s ease-in-out; } /* Hide system until login */
+        .lock-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            position: relative;
+        }
+        .lock-icon {
+            font-size: 50px;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        .logo {
+            width: 120px;
+            margin-bottom: 10px;
+        }        
+   </style>
+   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous">
+        function updateEmployee() {
+            if (selectedIndex >= 0) {
+                employees[selectedIndex].name = document.getElementById("name").value;
+                employees[selectedIndex].age = document.getElementById("age").value;
+                employees[selectedIndex].position = document.getElementById("position").value;
+                employees[selectedIndex].department = document.getElementById("department").value;
+                employees[selectedIndex].salary = document.getElementById("salary").value;
+                loadEmployees();
+                selectedIndex = -1;
+            } else {
+                alert("Please select an employee to update.");
+            }
+        }
+
+</script>
+</head>
+<body>
+   <div class="lock-screen" id="lockScreen">
+        <img src="logo.webp" class="logo" alt="Company Logo">
+        <i class="fas fa-lock lock-icon"></i>
+        <h2>Enter System Password</h2>
+        <input type="password" id="password" placeholder="Enter password">
+        <button onclick="checkPassword()">Unlock</button>
+        <p id="error"><h10>If incorrect password! Try again.</h10></p>
+        <br><h4>Developed by E & W Technologies</h4></br>
+   </div>
+
+   <div id="main-container">
+    <div class="container">
+        <img src="logo.webp" class="logo" alt="Company Logo">
+        <h2>TWILLIUM INDUSTRIAL COMPANY LIMITED</h2>
+        <p>(Employee Management System)</p>
+        <input type="text" id="name" placeholder="Name">
+        <input type="number" id="age" placeholder="Age">
+        <input type="text" id="position" placeholder="Position">
+        <input type="text" id="department" placeholder="Department">
+        <input type="number" id="salary" placeholder="Salary (Cedis)">
+        <button onclick="addEmployee()">Add</button>
+        <button onclick="updateEmployee()">Update</button>
+        <button onclick="deleteEmployee()">Delete</button>
+        <button onclick="loadEmployees()">Refresh</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Position</th>
+                    <th>Department</th>
+                    <th>Salary (Cedis)</th>
+                </tr>
+            </thead>
+            <tbody id="employeeTable"></tbody>
+        </table>
+    </div>
+
+    <script src="script.js">
+ 
+        let employees = [];
+        function loadEmployees() {
+            let table = document.getElementById("employeeTable");
+            table.innerHTML = "";
+            employees.forEach((emp, index) => {
+                let row = `<tr onclick="selectEmployee(${index})">
+                    <td>${index + 1}</td>
+                    <td>${emp.name}</td>
+                    <td>${emp.age}</td>
+                    <td>${emp.position}</td>
+                    <td>${emp.department}</td>
+                    <td>${emp.salary}</td>
+                </tr>`;
+                table.innerHTML += row;
+            });
+        }
+        function addEmployee() {
+            let name = document.getElementById("name").value;
+            let age = document.getElementById("age").value;
+            let position = document.getElementById("position").value;
+            let department = document.getElementById("department").value;
+            let salary = document.getElementById("salary").value;
+            if ( name && age && position && department && salary) {
+                employees.push({ name, age, position, department, salary });
+                loadEmployees();
+            } else {
+                alert("All fields are required!");
+            }
+        }
+    
+        function updateEmployee() {
+            if (selectedIndex >= 0) {
+                employees[selectedIndex].name = document.getElementById("name").value;
+                employees[selectedIndex].age = document.getElementById("age").value;
+                employees[selectedIndex].position = document.getElementById("position").value;
+                employees[selectedIndex].department = document.getElementById("department").value;
+                employees[selectedIndex].salary = document.getElementById("salary").value;
+                loadEmployees();
+                selectedIndex = -1;
+            } else {
+                alert("Please select an employee to update.");
+            }
+        }
+
+</script>
+ </body>
+</html>
